@@ -28,10 +28,15 @@ class Timer(object):
         从京东服务器获取时间毫秒
         :return:
         """
-        url = 'https://a.jd.com//ajax/queryServerData.html'
-        ret = requests.get(url).text
-        js = json.loads(ret)
-        return int(js["serverTime"])
+        url = 'https://jd.com'
+        ret = requests.get(url).headers
+        server_date = ret["date"]
+        print(server_date)
+        GMT_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
+        server_datetime = datetime.strptime(server_date,GMT_FORMAT).timestamp()
+        print(server_datetime)
+        # js = json.loads(ret)
+        return int(server_datetime)
 
     def local_time(self):
         """
